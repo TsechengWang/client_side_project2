@@ -1,0 +1,917 @@
+// 設定字體
+@import url('https://fonts.googleapis.com/css?family=Handlee|Playfair+Display')
+
+// 顏色變數
+$colorBlueRoofLight: #6fc5ff
+$colorBlueRoofDark: #0058ff
+$colorGreyLight: #fafaf5
+$colorGreyNormal: #e3e2cf
+$colorGreyDark: #bebdaf
+$colorBackground: #2C2F36
+$colorShadowBlue: #7cb1ff
+$colorShadowBlueLight: #8dc9fc
+$colorWindowGrey: #534d4d
+$colorskytreeGreyLight: #d6cdb1
+$colorskytreeGreyDark: #a8a28d
+$colorskytreeGlass: #7797ad
+$colorYellowLight: #e0a44a
+$colorYellowDark: #5b5700
+$colorGreenGlass: #8ff7d8
+$colorGreenLight: #76b269
+$colorGreenNormal: #557c4d
+$colorGreenDark: #346b29
+$colorGreenDeep: #1d3d17
+$colorBlueDark: #031553
+$colorBlueLight: #1a8cc4
+$colorRedLight: #f25a2d
+$colorRedDark: #520308
+$colorRedDeep: #2b0204
+$colorPurpleDark: #2e0459
+$colorPurpleNormal: #752fbf
+$colorPurpleLight: #bb7cff
+$colorPinkLight: #f791ce
+$colorPinkDark: #7a044b
+$colorOrangeDeep: #514130
+$colorOrangeNormal: #ff9e02
+$colorOrangeDark: #9b5306
+
+$mtGradient: linear-gradient(315deg,$colorGreenDark,$colorGreenDark,$colorGreenDark,$colorGreenDark,$colorGreenDark,#fff)
+$roofGradient: linear-gradient(150deg,$colorBlueRoofLight,$colorBlueRoofDark)
+$sceneGradient: linear-gradient(#1D2B49,#1A45A0,#91cdff,#fff)
+$RedGradient: linear-gradient(45deg,#fc0f2e,#33070c)
+$BlueGradient: linear-gradient(#031553,#1a8cc4,#20b3f7,#20b3f7)
+$YellowGradient: linear-gradient(#682e14,#e0a44a,#ffc46d)
+$RainbowGradient: linear-gradient(red,yellow,#00ddff)
+
+
+@mixin size($w,$h:$w,$bdrs:0)
+  width: $w
+  height: $h
+  border-radius: $bdrs
+
+@mixin flex($j:center,$a:center)
+  display: flex
+  justify-content: $j
+  align-items: $a
+
+@mixin abpos($l:initial,$t:initial)
+  position: absolute
+  left: $l
+  top: $t
+
+@mixin wall($color,$flex,$windowPan:0,$z:1)
+  background-color: $color
+  flex: $flex
+  .window
+    box-shadow: inset $windowPan 2px $colorShadowBlue
+  &:before
+    z-index: $z
+
+@mixin halfCir($r)
+  +size($r*2,$r,$r $r 0 0)
+
+@mixin triangle($w,$h:$w,$color: $colorRedDeep)
+  width: 0
+  height: 0
+  border-style: solid
+  border-width: 0 $w $h $w 
+  border-color: transparent transparent $color transparent
+
+@mixin bar($w:6px,$h:200px,$color: $colorGreyLight)
+  +size($w,$h)
+  position: absolute
+  background-color: $color
+  
+@mixin house1($w:100px,$h:100px, $color: $colorGreyLight)
+  +size($w,$h)
+  background-color: $color
+  padding: $w*0.1 $w*0.1 $w*0.2 $w*0.05
+  display: flex
+  justify-content: center
+  flex-wrap: wrap
+  box-shadow: inset -5px 1px 0px rgba(black,0.3)
+  .window
+    +size(3px, 7px)
+    background-color: #fff
+    box-shadow:  inset -0.5px -0.5px 0px rgba(black,0.3), 0px 0px 5px black
+    margin: $w*0.05 
+@mixin house2($w:100px,$h:100px, $color: $colorGreyLight)
+  +size($w,$h)
+  background-color: $color
+  padding: $w*0.1 $w*0.05 $w*0.2 $w*0.05
+  display: flex
+  justify-content: center
+  flex-wrap: wrap
+  box-shadow: inset -10px 1px 0px rgba(black,0.3)
+  .window
+    +size($w*0.75, $w*0.04)
+    background-color: #fff
+    box-shadow:  inset $w*-0.02 $w*0.02 0px rgba(black,0.3), 0px 0px 5px black
+    margin:
+      right: $w*0.05
+      top: $w*0.1
+
+@mixin mountain($l,$r,$d:45)
+  +size($l,$l,$r)
+  transform: rotate(#{$d}deg)
+  +abpos
+  box-shadow: inset 0px 20px rgba(black,0.2)
+      
+*,*:before,*:after
+  font-family: 'Handlee','微軟正黑體'
+  // border: solid 1px black
+  position: relative
+
+html,body
+  +size(100%)
+  margin: 0
+  +flex
+  background-color: $colorBackground
+  color: white
+
+.scene
+  +size(700px,500px,15px)
+  background: $sceneGradient
+  background-size: 100% 300%
+  box-shadow: 0px 0px 30px rgba(black,0.5)
+  background-position: 0 0%
+  overflow: hidden
+  .lefttopText
+    margin:
+      left: 30px
+      top: 30px
+    h1
+      font-size: 36px
+      letter-spacing: 3px
+      margin-top: 0
+      font-weight: 300
+    h5
+      font-size: 14px
+      letter-spacing: 1px
+      opacity: 0.6
+      margin-bottom: 0
+      font-weight: 300
+    p
+      font-size: 14px
+      line-height: 24px
+      letter-spacing: 2px
+      opacity: 0.6
+    .blueblock
+      +size(20px,25px)
+      background-color: $colorShadowBlue
+
+
+.mountains
+  +size(100%,100%)
+  +abpos(0,0)
+  .mountain1
+    +mountain(220px,20px,45)
+    background-color: $colorGreenLight
+    left: -30px
+    z-index: 0
+    bottom: -100px
+  .mountain2
+    +mountain(430px,30px,45)
+    background: $mtGradient
+    left: 180px
+    z-index: 0
+    bottom: -200px
+  .mountain3
+    +mountain(250px,30px,45)
+    background-color: $colorGreenNormal
+    left: 490px
+    z-index: 0
+    bottom: -140px
+
+    
+.skytree
+  position: relative
+  right: 0
+  bottom: 0 
+  .skytreeelement1
+    +abpos(500px,-90px)
+    border-bottom: 250px solid $colorskytreeGreyDark
+    border-left: 20px solid transparent
+    border-right: 20px solid transparent
+    width: 40px
+    z-index: 3
+    &:before
+      content: ""
+      +abpos(0,-60px)
+      transform: translateX(-20px)
+      border-bottom: 30px solid $colorskytreeGlass
+      border-left: 20px solid transparent
+      border-right: 20px solid transparent
+      width: 40px
+    &:after
+      content: ""
+      +abpos(0,-30px)
+      transform: translateX(-20px)
+      border-top: 30px solid $colorskytreeGlass
+      border-left: 20px solid transparent
+      border-right: 20px solid transparent
+      width: 40px
+  .skytreeelement2
+    +abpos(520px,-220px)
+    bottom: 300px
+    right: 15px
+    border-bottom: 70px solid $colorskytreeGreyLight
+    border-left: 15px solid transparent
+    border-right: 15px solid transparent
+    width: 10px
+    z-index: 3
+    &:before
+      content: ""
+      +abpos(0,-25px)
+      transform: translateX(-5px)
+      border-bottom: 15px solid $colorskytreeGlass
+      border-left: 5px solid transparent
+      border-right: 5px solid transparent
+      width: 10px
+    &:after
+      content: ""
+      +abpos(0,-10px)
+      transform: translateX(-5px)
+      border-top: 15px solid $colorskytreeGlass
+      border-left: 5px solid transparent
+      border-right: 5px solid transparent
+      width: 10px
+  .skytreeelement3
+    +abpos(535px,-285px)
+    +size(10px,40px)
+    background-color: $colorskytreeGreyLight
+    z-index: 3
+    &:before
+      content: ""
+      display: block
+      +size(5px,30px)
+      top: -30px
+      left: 2.5px
+      background-color: #fff
+    &:after
+      content: ""
+      display: block
+      +size(10px,10px,50%)
+      top: -69px
+      left: 0px
+      background-color: red
+
+.buildings
+  position: relative
+  right: 0
+  bottom: 0  
+  .building1
+    z-index: 3
+    +abpos(295px,35px)
+    +size(150px,150px,100% 0 100% 0)
+    transform: rotate(-45deg)
+    background: $RedGradient
+    &:before
+      content: ""
+      display: block
+      +size(120px,120px,100% 0 100% 0)
+      left: 20px
+      bottom: -10px
+      background-color: $colorYellowLight
+    &:after
+      content: ""
+      display: block
+      +size(100px,100px,100% 0 100% 0)
+      +abpos(25px,25px)
+      background: $RedGradient
+      z-index: 5
+  .building2
+    +house1(50px,120px, $colorBlueDark)
+    +abpos(80px,20px)
+    z-index: 3
+    position: relative
+    .window
+      background-color: $colorYellowLight
+    &:before
+      content: ""
+      display: block
+      +size(65px,5px)
+      +abpos(0,-5px)
+      transform: translateX(-5px)
+      background-color: $colorBlueLight
+      box-shadow:  2px 0px 0px rgba(black,0.3)
+    .bar1
+      +bar(4px,140px)
+      left: 33px
+      top: -5px
+      transform: translateX(5px)
+      z-index: 5
+      background: $BlueGradient
+    .bar2
+      +bar(4px,140px)
+      left: 8px
+      top: -5px
+      transform: translateX(5px)
+      z-index: 5
+      background: $BlueGradient
+    &:after
+      content: ""
+      display: block
+      +size(15px,15px,50%)
+      background-color: $colorBlueRoofLight
+      border: solid 5px $colorskytreeGreyLight
+      top: -140px
+      left: 15%
+      transform: translate(-50%,-25%)
+      z-index: 5
+
+  .building3
+    +house2(70px,250px, $colorOrangeDeep)
+    +abpos(615px,-110px)
+    z-index: 3
+    .window
+      background-color: $colorYellowLight
+    .bar
+      +bar(6px,280px)
+      right: 5px
+      top: 0px
+      background: $YellowGradient
+    .roof
+      +halfCir(39px)
+      position: absolute
+      top: -38px
+      left: 0
+      background: $colorOrangeDeep
+      &:before
+        content: ""
+        display: block
+        +halfCir(32px)
+        top: 7px
+        left: 8px
+        background: $colorYellowDark
+  .building4
+    +house2(60px,200px, $colorRedDark)
+    +abpos(150px,-60px)
+    z-index: 4
+    .window
+      background-color: $colorRedLight
+    .roof
+      +triangle(20px,15px)
+      +abpos(26px,-15px)
+      &:before
+        content: ""
+        display: block
+        +triangle(20px,15px,$colorRedLight)
+        left: -45px
+    .bar
+      +bar(6px,280px)
+      right: 50%
+      top: 0px
+      z-index: 5
+      background: $RedGradient
+  .building5
+    +house2(60px,170px, $colorRedDark)
+    +abpos(200px,-20px)
+    z-index: 5
+    .window
+      background-color: $colorRedLight
+    .roof
+      +triangle(20px,15px)
+      +abpos(26px,-15px)
+      &:before
+        content: ""
+        display: block
+        +triangle(20px,15px,$colorRedLight)
+        left: -45px
+    .bar
+      +bar(6px,280px)
+      right: 50%
+      top: 0px
+      z-index: 5
+      background: $RedGradient
+  .building6
+    +house2(100px,120px, $colorBlueDark)
+    +abpos(520px,25px)
+    z-index: 7
+    .window
+      margin-top: 0
+      background-color: $colorBlueLight
+    .roof
+      +size(110px,20px,20px 20px 0 0)
+      position: absolute
+      top: -20px
+      left: 0
+      background: $colorBlueDark
+    .bar1
+      +bar(6px,150px)
+      right: 85%
+      top: 0px
+      z-index: 5
+      background: $BlueGradient
+    .bar2
+      +bar(6px,150px)
+      right: 15%
+      top: 0px
+      z-index: 5
+      background: $BlueGradient
+  .building7
+    +house1(120px,25px, $colorPurpleDark)
+    +abpos(215px,-40px)
+    z-index: 7
+    position: relative
+    .window
+      margin-top: 0
+      background-color: $colorPurpleNormal
+    &:before
+      content: ""
+      display: block
+      +size(145px,5px)
+      +abpos(0,-5px)
+      transform: translateX(-5px)
+      background-color: $colorPurpleNormal
+      box-shadow:  2px 0px 0px rgba(black,0.3)
+    .bar1
+      +bar(138px,3px)
+      right: 0
+      top: 5px
+      z-index: 5
+      background-color: rgba($colorPurpleLight,0.9)
+    .bar2
+      +bar(138px,2px)
+      right: 0
+      top: 22px
+      z-index: 5
+      background-color: rgba($colorPurpleLight,0.9)
+    .bar3
+      +bar(138px,2px)
+      right: 0
+      top: 35px
+      z-index: 5
+      background-color: rgba($colorPurpleLight,0.9)
+    .bar4
+      +bar(138px,2px)
+      right: 0
+      top: 47px
+      z-index: 5
+      background-color: rgba($colorPurpleLight,0.9)
+    .bar5
+      +bar(5px,60px)
+      left: 0
+      top: 0px
+      z-index: 5
+      background-color: rgba($colorPurpleNormal,0.9)
+  .building8
+    position: relative
+    .building_1
+      +house2(40px,120px, $colorGreenNormal)
+      +abpos(455px,-170px)
+      z-index: 4
+      &:before
+        content: ""
+        display: block
+        +size(30px,40px)
+        +abpos(5px,-40px)
+        background-color: $colorGreenDeep
+        box-shadow: inset -4px 0px 0px rgba(black,0.3)
+      &:after
+        content: ""
+        display: block
+        +size(20px,40px)
+        +abpos(10px,-80px)
+        background-color: #222
+        box-shadow: inset -4px 0px 0px rgba(black,0.3)
+      .window
+        top: 5px
+        padding: 1px
+        background-color: $colorGreenGlass
+      .bar
+        +bar(30px,5px)
+        transform: translateX(-5px)
+        +abpos(10px,-85px)
+        background-color: $colorGreenLight
+    .building_2
+      +house2(40px,120px, $colorGreenNormal)
+      +abpos(385px,-170px)
+      z-index: 4
+      &:before
+        content: ""
+        display: block
+        +size(30px,40px)
+        +abpos(5px,-40px)
+        background-color: $colorGreenDeep
+        box-shadow: inset -4px 0px 0px rgba(black,0.3)
+      &:after
+        content: ""
+        display: block
+        +size(20px,40px)
+        +abpos(10px,-80px)
+        background-color: #222
+        box-shadow: inset -4px 0px 0px rgba(black,0.3)
+      .window
+        top: 5px
+        padding: 1px
+        background-color: $colorGreenGlass
+      .bar
+        +bar(30px,5px)
+        transform: translateX(-5px)
+        +abpos(10px,-85px)
+        background-color: $colorGreenLight
+    .building_3
+      +size(40px,120px)
+      +abpos(420px,-160px)
+      z-index: 3
+      background-color: rgba($colorGreenDeep,0.8)
+      border: solid 3px #02261b
+      
+      
+  .building9
+    +abpos(-840px,90px)
+    right: 0
+    bottom: -5px 
+    transform: scale(0.2)
+    z-index: 7
+  [class^="house"]
+    position: absolute
+    bottom: 0
+    right: 0
+  .house1
+    +size(180px,200px)
+    background-color: $colorGreyLight
+    box-shadow: inset -50px 0px $colorGreyNormal
+    z-index: 1
+    .window
+      +size(40px,100px,20px)
+      background-color: $colorGreyNormal
+      box-shadow: inset 8px 5px $colorGreyDark
+      +flex
+      flex-direction: column
+      margin: 
+        top: 40px
+        left: 70px
+      .circle
+        +size(20px,20px,50%)
+        margin: 4px
+        margin-left: 10px
+        background-color: $colorWindowGrey
+
+  .house2
+    +size(240px,170px)
+    right: 130px 
+    background-color: $colorGreyLight
+    box-shadow: inset 0px 15px $colorShadowBlueLight,inset -72px 0px $colorGreyNormal
+    z-index: 3
+    .door
+      +size(40px,80px,20px 20px 0 0)
+      position: absolute
+      bottom: 0
+      left: 45px
+      background-color: $colorBackground
+      box-shadow: inset 10px 2px $colorShadowBlue
+
+  .house3
+    +size(320px,300px)
+    +flex
+    background-color: $colorGreyLight
+    z-index: 0
+    .wall
+      height: 100%
+      +flex(center,flex-start) 
+
+      .window
+        +size(24px,50px,12px 12px 0px 0px)
+        margin-top: 30px
+        background-color: $colorBackground
+      &:before
+        content: ""
+        display: block
+        +size(105%,20px)
+        position: absolute
+        top: -20px
+        left: 50%
+        transform: translateX(-50%)
+        background-color: inherit
+        box-shadow: 0px 0px 10px rgba(black,0.1)
+      &:nth-child(1)
+        +wall($colorGreyLight,10,8px)
+      &:nth-child(2)
+        +wall($colorGreyNormal,14,0px,2)
+      &:nth-child(3)
+        +wall($colorGreyDark,10,-8px)
+  .roof
+    +halfCir(150px)
+    position: absolute
+    top: -170px
+    right: 5px
+    background: $roofGradient
+    .rooftop
+      +halfCir(14px)
+      +abpos(50%,-14px)
+      transform: translateX(-50%)
+      background-color: #fff
+
+    .cross
+      +size(4px,30px)
+      position: absolute
+      left: 50%
+      transform: translateX(-50%)
+      bottom: 10px
+      background-color: #fff
+      &:before
+        content: ""
+        display: block
+        +size(20px,4px)
+        position: absolute
+        left: 50%
+        transform: translateX(-50%)
+        bottom: 15px
+        background-color: #fff
+  .building10
+    +house2(60px,100px, $colorOrangeDeep)
+    +abpos(270px,45px)
+    z-index: 2
+    .window
+      margin-top: 0
+      background-color: $colorOrangeNormal
+    .roof
+      +size(66px,20px,20px 20px 0 0)
+      position: absolute
+      top: -20px
+      left: 0
+      background: $colorOrangeDeep
+    .bar1
+      +bar(6px,100px)
+      right: 85%
+      top: 0px
+      z-index: 2
+      background-color: $colorOrangeDark
+    .bar2
+      +bar(6px,100px)
+      right: 15%
+      top: 0px
+      z-index: 2
+      background-color: $colorOrangeDark
+  .building11
+    +house1(40px,70px,$colorPinkDark)
+    +abpos(110px,80px)
+    z-index: 3
+    .window
+      background-color: $colorPurpleLight
+  .building12
+    +house2(40px,160px,$colorPurpleDark)
+    +abpos(5px,-15px)
+    z-index: 3
+    .window
+      background-color: $colorPinkLight
+    
+
+.bridge1
+  +size(140px,4px)
+  background-color: grey
+  +abpos(80px,135px)
+  z-index: 6
+  &:after
+    content: ""
+    display: block
+    +size(10px,55px)
+    background-color: tranperant
+    border: solid 3px $colorGreyNormal
+    left: 15%
+    top: -80px
+    transform: translate(-50%,-25%)
+    z-index: 5
+  &:before
+    content: ""
+    display: block
+    +size(10px,55px)
+    background-color: tranperant
+    border: solid 3px $colorGreyNormal
+    left: 85%
+    top: -20px
+    transform: translate(-50%,-25%)
+    z-index: 5
+  .line1
+    +size(2px,40px)
+    background: $RainbowGradient
+    +abpos(8px,-34px)
+    transform: rotate(15deg)
+  .line2
+    +size(2px,55px)
+    background: $RainbowGradient
+    +abpos(89px,-42px)
+    transform: rotate(50deg)
+  .line3
+    +size(2px,40px)
+    background: $RainbowGradient
+    +abpos(133px,-34px)
+    transform: rotate(-15deg)
+  .line4
+    +size(2px,55px)
+    background: $RainbowGradient
+    +abpos(48px,-42px)
+    transform: rotate(-50deg)
+    
+.bridge2
+  +size(100px,30px)
+  background-color: $colorRedDark
+  +abpos(429px,132px)
+  z-index: 5
+  &:after
+    content: ""
+    display: block
+    +size(30px,20px,50% 50% 0 0)
+    background-color: #222
+    +abpos(60px,10px)
+  &:before
+    content: ""
+    display: block
+    +size(30px,20px,50% 50% 0 0)
+    background-color: #222
+    +abpos(10px,10px)
+
+.rainbow
+  +size(600px,600px,600px 0 0 0)
+  position: absolute
+  bottom: -200px
+  right: 0
+  box-shadow: 0 -10px 5px red, 0 -20px 5px orange, 0 -30px 5px  yellow, 0 -40px 5px green, 0 -50px 5px blue, 0 -60px 5px indigo, 0 -70px 5px purple
+  opacity: 0
+      
+      
+.allClouds
+  +size(100%,70%)
+  +abpos(0,0)
+  transition: 2s
+  opacity: 0
+  z-index: 0
+  
+  @keyframes Clouds
+    0%,100%
+      opacity: 0
+    70%
+      opacity: 1
+    0%
+      transform: translate(100%,0)
+    100%
+      transform: translate(-100%,0)
+  
+  [class^='Cloud']
+    +size(140px,46px,70px)
+    background-color: #fff
+    opacity: 0.95
+    box-shadow: 0 0 10px #FFF
+    animation: Clouds 16s infinite linear
+    
+    &:before
+      content: ""
+      +size(46px,46px,23px)
+      +abpos(19px,-23px)
+      background-color: #fff
+      z-index: -1
+    &:after
+      content: ""
+      +size(70px,70px,35px)
+      +abpos(51px,-35px)
+      background-color: #fff
+      z-index: -1
+    
+  @for $i from 1 through 10
+    .Cloud#{$i}
+      $posX: random()*-150%+100%
+      $posY: random()*80%
+      +abpos($posX,$posY)
+      animation-delay: $i*-0.1s
+      
+.allstars
+  +size(100%)
+  +abpos(0,0)
+  [class^="star"]
+    background-color: #fff
+    +size(3px,3px,50%)
+    animation: falling 2s infinite
+    
+  @for $i from 1 through 30
+    .star#{$i}
+      $posX: random()*100%
+      $posY: random()*-80%+50%
+      +abpos($posX,$posY)
+      animation-delay: $i*-0.1s
+ 
+@keyframes falling
+  0%,100%
+    opacity: 0
+  70%
+    opacity: 1
+  0%
+    transform: translate(100px,0)
+  100%
+    transform: translate(0px,200px)
+    
+.remind
+  opacity: 0.2
+  margin-bottom: 10px
+  letter-spacing: 1px
+  
+.dayText
+  display: none
+
+.sun,.moon
+  +size(50px,50px,50%)
+  +abpos(250px,100px)
+  
+.sun
+  background-color: #ffcc00
+  box-shadow: 0px 0px 40px rgba(#ffcc00,0.8)
+  top: 400px
+  opacity: 0
+
+.moon
+  animation: moonAppear  3s both
+@keyframes moonAppear 
+  0%
+    box-shadow: inset 0px 0px rgba(white,0.9)
+  100%
+    box-shadow: inset 10px -10px rgba(white,0.9)
+
+h1,h5,p,.moon,.sun,.scene,.allstar,.blue,.blueblock,.allClouds,.rainbow
+  transition: 3s 
+.window,.buildings,.skytree
+  transition: 5s 
+  transition-delay: 1s
+  
+input:checked+.scene
+  background-position: 0 100%
+  .nightText
+    display: none
+  .dayText
+    display: block
+  .allstars
+    opacity: 0
+  h1,h5,p
+    color: #222
+  [class^="building"],[class^="bridge"],.skytree
+    filter: brightness(115%)  saturate(0.75)
+    .window
+      background-color: #3f4e59
+    [class^="bar"]
+      transition: 3s
+    .building8
+      z-index: 4
+  .allClouds
+    opacity: 1
+  .rainbow
+    opacity: 0.3
+  .moon
+    top: -100px
+    opacity: 0
+  .sun
+    top: 100px
+    opacity: 1
+  .blueblock
+    background-color: #fff
+input
+  display: none
+    
+  
+@mixin pryo($size: 50px, $color: DarkSalmon)
+  +size($size)
+  .ball
+    background-color: $color
+    box-shadow: 0px 0px 10px $color
+
+  @keyframes ballani
+    0%
+      transform: translateX(0px)
+    15%
+      opacity: 0
+    50%
+      +size(8px,8px,50%)
+      opacity: 1
+    100%
+      transform: translateX($size*1.5)
+      box-shadow: 0px 0px 30px
+      opacity: 0
+  
+.ball
+  +size(5px,5px,50%)
+  border-radius: 50%
+  position: absolute
+  opacity: 0
+  // animation: ballani 2s infinite 
+  
+@for $i from 1 through 12
+  .container#{$i}
+    transform: rotate(#{$i*360/12}deg)
+  
+@for $i from 1 through 3
+  .pryo#{$i}
+    $size: random(5)*15+50px
+    $colors: (Red,Yellow,DeepPink,LawnGreen ,MediumTurquoise )
+    $color: nth($colors,random(5))
+    +pryo($size,$color)
+  .pryo1
+    +abpos(550px,150px)
+  .pryo2
+    +abpos(250px,80px)
+  .pryo3
+    +abpos(300px,170px)
+    
+.scene:hover
+  [class^='pryo']
+    z-index: 10
+    .ball
+      animation: ballani 2s infinite both
